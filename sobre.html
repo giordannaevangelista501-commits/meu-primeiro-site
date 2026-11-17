@@ -1,0 +1,62 @@
+<!-- Declara que o documento utiliza HTML moderno. -->
+<!DOCTYPE html>
+<!-- Inicia o documento e informa o idioma do conteúdo. -->
+<html lang="pt-BR">
+<!-- Reúne configurações que não aparecem como conteúdo da página. -->
+<head>
+  <!-- Permite exibir corretamente os acentos. -->
+  <meta charset="UTF-8">
+  <!-- Configura a largura da página para a tela do dispositivo. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Título próprio desta página. -->
+  <title>Sobre | Autopeças</title>
+  <!-- Mesmo CSS das outras páginas. -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header e nav iguais às outras páginas; só o aria-current mudou de lugar. -->
+  <header>
+    <h1 class="logo">AUTOPEÇAS</h1>
+    <nav aria-label="Menu principal">
+      <a href="index.html">Painel</a>
+      <a href="sobre.html" aria-current="page">Sobre</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Apresentação do sistema. -->
+    <section class="cartao">
+      <h2>Sobre o sistema</h2>
+      <p>O <strong>Autopeças</strong> é um sistema de gestão (ERP) para lojas que vendem
+        presencialmente ou on-line. Ele organiza estoque, vendas, clientes e caixa em um só lugar.</p>
+
+      <!-- Lista SEM ordem: os itens não têm sequência obrigatória. -->
+      <h3>Funcionalidades</h3>
+      <ul>
+        <li>Controle de estoque com quantidade mínima e alerta de produtos em falta</li>
+        <li>Bloqueio de venda para produtos sem estoque</li>
+        <li>Cadastro de clientes com nome, CPF e endereço</li>
+        <li>Cadastro de produtos por categoria, subcategoria e fornecedor</li>
+        <li>Setorização dos produtos (endereço na prateleira)</li>
+        <li>Controle de entrada e saída de valores no caixa</li>
+      </ul>
+
+      <!-- Lista NUMERADA: os passos seguem uma ordem. -->
+      <h3>Como uma venda acontece</h3>
+      <ol>
+        <li>Cadastrar o produto e informar a quantidade mínima</li>
+        <li>Registrar a entrada dos itens no estoque</li>
+        <li>Selecionar o cliente e os produtos disponíveis</li>
+        <li>Finalizar a venda e registrar o valor no caixa</li>
+      </ol>
+
+      <a class="botao" href="index.html">Voltar ao painel</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>Autopeças — projeto acadêmico de ADS | UniGoiás</p>
+  </footer>
+</body>
+</html>

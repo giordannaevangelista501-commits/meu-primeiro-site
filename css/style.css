@@ -1,0 +1,213 @@
+/* ===== CORES DO PROJETO (azul e branco) =====
+   Azul do topo ....... #2563eb
+   Azul-marinho ....... #1e2a47  (botões e títulos dos cartões)
+   Azul-claro ......... #e3e9f4  (faixas de seção)
+   Fundo .............. #f4f7fc
+*/
+
+/* Aplica o cálculo de largura com borda e espaçamento interno. */
+* { box-sizing: border-box; }
+
+/* Define a aparência geral de todas as páginas. */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+  color: #1e2a47;
+  background-color: #f4f7fc;
+  /* Flexbox em coluna: mantém o rodapé no fim da tela,
+     mesmo quando a página tem pouco conteúdo. */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== CABEÇALHO ===== */
+/* Flexbox coloca o logo e o menu na mesma linha. */
+header {
+  background-color: #2563eb;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between; /* logo à esquerda, menu à direita */
+  align-items: center;            /* centraliza na vertical */
+  flex-wrap: wrap;                /* em tela pequena, o menu desce */
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(30, 42, 71, 0.15); /* sombra leve embaixo */
+}
+
+/* Nome do sistema. */
+.logo {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 1px;
+  color: white;
+}
+
+/* ===== MENU ===== */
+/* Organiza os links do menu com Flexbox. */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Cada link do menu vira um "botão" azul-marinho. */
+nav a {
+  background-color: #1e2a47;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid #1e2a47;
+  transition: background-color 0.2s; /* troca de cor suave */
+}
+
+/* Escurece o link quando o mouse está sobre ele. */
+nav a:hover {
+  background-color: #0f1b33;
+}
+
+/* Destaca a página atual (aria-current="page" no HTML). */
+nav a[aria-current="page"] {
+  background-color: white;
+  color: #1e2a47;
+}
+
+/* ===== ÁREA PRINCIPAL ===== */
+/* Limita e centraliza a área principal. */
+main {
+  flex: 1; /* ocupa o espaço que sobrar e empurra o rodapé para baixo */
+  width: 100%;
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+/* Espaço entre os blocos do painel. */
+section {
+  margin-bottom: 32px;
+}
+
+/* Faixa azul-clara com o nome de cada bloco. */
+.faixa {
+  background-color: #e3e9f4;
+  padding: 8px 16px;
+  border-left: 4px solid #2563eb; /* barrinha azul à esquerda */
+  border-radius: 0 8px 8px 0;
+  font-size: 16px;
+  margin: 0 0 16px;
+}
+
+/* ===== GRADE DE CARTÕES ===== */
+/* CSS Grid: cria colunas automáticas de no mínimo 240px.
+   Em tela larga ficam 3 lado a lado; em tela estreita, 1 embaixo do outro. */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* Estiliza todos os elementos com a classe cartao. */
+.cartao {
+  background-color: white;
+  padding: 16px;
+  border: 1px solid #dbe3f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(30, 42, 71, 0.06); /* sombra leve dá profundidade */
+}
+
+/* Remove o espaço extra acima do título nas páginas Sobre e Contato. */
+.cartao h2 { margin-top: 0; }
+
+/* Título escuro no topo de cada cartão. */
+.cartao h4 {
+  margin: -16px -16px 12px; /* margem negativa "encosta" o título nas bordas */
+  padding: 10px;
+  background-color: #1e2a47;
+  color: white;
+  text-align: center;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Número grande dos indicadores. */
+.numero {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin: 8px 0;
+  color: #2563eb;
+}
+
+/* ===== TABELAS ===== */
+table {
+  width: 100%;
+  border-collapse: collapse; /* junta as bordas das células */
+  font-size: 14px;
+}
+
+th {
+  text-align: left;
+  background-color: #eef2fa;
+  padding: 8px;
+}
+
+td {
+  padding: 8px;
+  border-bottom: 1px solid #e6ebf4;
+  color: #4a5672;
+}
+
+/* Mensagem "Nenhum registro": centralizada e em itálico.
+   [colspan] seleciona as células que têm o atributo colspan. */
+td[colspan] {
+  text-align: center;
+  font-style: italic;
+  color: #64748b;
+}
+
+/* ===== LINKS E BOTÃO ===== */
+/* Define a cor padrão dos links. */
+a { color: #1e2a47; }
+/* Altera o link quando o mouse está sobre ele. */
+a:hover { text-decoration: none; }
+/* Evidencia o link selecionado pelo teclado (tecla Tab). */
+a:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+/* No cabeçalho azul, o contorno fica branco para aparecer. */
+header a:focus-visible { outline-color: white; }
+
+/* Dá aparência de botão ao link dessa classe. */
+.botao {
+  display: inline-block;
+  background-color: #1e2a47;
+  color: white;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+/* Muda a cor do botão quando o mouse está sobre ele. */
+.botao:hover { background-color: #2563eb; }
+
+/* ===== RODAPÉ ===== */
+footer {
+  text-align: center;
+  padding: 16px;
+  color: #4a5672;
+  background-color: white;
+  border-top: 1px solid #dbe3f0; /* linha fina separando o rodapé */
+}
+
+footer p { margin: 0; }
+
+/* ===== CELULAR ===== */
+/* Aplica ajustes somente em telas com até 600 pixels. */
+@media (max-width: 600px) {
+  header { padding: 12px; }
+  .logo { font-size: 22px; }
+  nav a { padding: 8px 12px; }
+}

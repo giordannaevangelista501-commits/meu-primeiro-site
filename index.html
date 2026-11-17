@@ -1,0 +1,145 @@
+<!-- Declara que o documento utiliza HTML moderno. -->
+<!DOCTYPE html>
+<!-- Inicia o documento e informa o idioma do conteúdo. -->
+<html lang="pt-BR">
+<!-- Reúne configurações que não aparecem como conteúdo da página. -->
+<head>
+  <!-- Permite exibir corretamente os acentos. -->
+  <meta charset="UTF-8">
+  <!-- Configura a largura da página para a tela do dispositivo. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Define o texto exibido na aba do navegador. -->
+  <title>Painel | Autopeças</title>
+  <!-- Conecta este HTML à folha de estilos externa. -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<!-- Inicia o conteúdo visível no navegador. -->
+<body>
+  <!-- Agrupa o nome do sistema e o menu. -->
+  <header>
+    <h1 class="logo">AUTOPEÇAS</h1>
+    <!-- Cria a área do menu principal. -->
+    <!-- aria-current="page" marca a página em que o usuário está. -->
+    <nav aria-label="Menu principal">
+      <a href="index.html" aria-current="page">Painel</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
+
+  <!-- Delimita o conteúdo principal desta página. -->
+  <main>
+    <h2>Painel</h2>
+
+    <!-- BLOCO 1: números do dia. -->
+    <section>
+      <h3 class="faixa">Indicadores do dia</h3>
+      <!-- A classe "grade" coloca os cartões lado a lado (ver CSS). -->
+      <div class="grade">
+        <div class="cartao">
+          <h4>Faturamento diário</h4>
+          <p class="numero">R$ 0,00</p>
+        </div>
+        <div class="cartao">
+          <h4>Orçamentos abertos</h4>
+          <p class="numero">0</p>
+        </div>
+        <div class="cartao">
+          <h4>Total de vendas</h4>
+          <p class="numero">0</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCO 2: alertas. Cada cartão tem uma tabela vazia. -->
+    <section>
+      <h3 class="faixa">Alertas urgentes</h3>
+      <div class="grade">
+        <div class="cartao">
+          <h4>Produtos em falta</h4>
+          <!-- table = tabela; thead = cabeçalho; tbody = corpo; tr = linha; th/td = célula. -->
+          <table>
+            <thead>
+              <tr><th>Produto</th><th>Qtd</th></tr>
+            </thead>
+            <tbody>
+              <!-- colspan="2" faz a célula ocupar as duas colunas. -->
+              <tr><td colspan="2">Nenhum registro</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cartao">
+          <h4>Pedidos atrasados</h4>
+          <table>
+            <thead>
+              <tr><th>Pedido</th><th>Cliente</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2">Nenhum registro</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cartao">
+          <h4>Priorizar produtos</h4>
+          <table>
+            <thead>
+              <tr><th>Produto</th><th>Qtd / Mín.</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2">Nenhum registro</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCO 3: atalhos. -->
+    <section>
+      <h3 class="faixa">Atalhos rápidos</h3>
+      <div class="grade">
+        <div class="cartao">
+          <h4>Comprar agora</h4>
+          <table>
+            <thead>
+              <tr><th>Produto</th><th>Sugerido</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2">Nenhum registro</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cartao">
+          <h4>Produtos parados</h4>
+          <table>
+            <thead>
+              <tr><th>Produto</th><th>Sem venda</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2">Nenhum registro</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cartao">
+          <h4>Pronta entrega</h4>
+          <table>
+            <thead>
+              <tr><th>Produto</th><th>Qtd</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2">Nenhum registro</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Link com aparência de botão (classe "botao" no CSS). -->
+    <a class="botao" href="sobre.html">Conheça o sistema</a>
+  </main>
+
+  <!-- Agrupa as informações do rodapé. -->
+  <footer>
+    <p>Autopeças — projeto acadêmico de ADS | UniGoiás</p>
+  </footer>
+</body>
+</html>
