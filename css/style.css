@@ -60,8 +60,7 @@ input:focus-visible {
    1. TOPO (header) — barra azul-marinho
    ========================================================= */
 .topo {
-  background-color: #0b2854;
-  color: white;
+  background: linear-gradient(90deg, #0a2563 0%, #0d4f8c 60%, #1479c4 100%);  color: white;
 }
 
 /* Flexbox coloca logo, menu e links da direita na mesma linha. */
@@ -570,8 +569,7 @@ footer {
   display: grid;
   place-items: center;
   padding: 24px;
-  background-color: #0b2854;
-}
+  background: linear-gradient(180deg, #0b3a6e 0%, #36c3f3 40%, #1a6fc0 70%, #0a2563 100%);}
 
 /* Caixa branca do login. */
 .login-caixa {
@@ -606,3 +604,10 @@ footer {
 
 /* Link "Esqueci minha senha". */
 .login-ajuda { display: block; margin-top: 16px; text-align: center; font-size: 13px; }
+/* Logo do Canva na tela de login. */
+.login-logo {
+  display: block;
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}

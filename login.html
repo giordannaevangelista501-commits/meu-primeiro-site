@@ -1,40 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Entrar | Autopeças</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@700;800&amp;display=swap">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<!-- A classe "pagina-login" pinta o fundo de azul e centraliza a caixa. -->
-<body class="pagina-login">
-  <main class="login-caixa">
-    <div class="marca">
-      <span class="marca-simbolo">AP</span>
-      <span class="marca-texto">
-        <strong>AUTOPEÇAS</strong>
-        <small>GESTÃO INTEGRADA</small>
-      </span>
-    </div>
-    <h1>Entrar no sistema</h1>
-    <p>Use seu usuário e senha</p>
-    <!-- action="index.html": ao clicar em Entrar, abre o painel.
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrar | Autopeças</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@700;800&amp;display=swap"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <!-- A classe "pagina-login" pinta o fundo de azul e centraliza a caixa. -->
+  <body class="pagina-login">
+    <main class="login-caixa">
+      <img
+        class="login-logo"
+        src="img/logo.png"
+        alt="Autopeças – Gestão integrada"
+      />
+      <h1>Entrar no sistema</h1>
+      <p>Use seu usuário e senha</p>
+      <!-- action="index.html": ao clicar em Entrar, abre o painel.
          Sem JavaScript não existe verificação de senha: é uma simulação.
          Os campos não têm "name", então nada do que for digitado é enviado. -->
-    <form action="index.html">
-      <!-- O "for" da label liga o texto ao campo com o mesmo "id". -->
-      <label for="usuario">Usuário</label>
-      <input id="usuario" type="text" autocomplete="username" required>
-      <label for="senha">Senha</label>
-      <!-- type="password" esconde o que é digitado. -->
-      <input id="senha" type="password" autocomplete="current-password" required>
-      <!-- required: o navegador não deixa enviar com o campo vazio. -->
-      <button class="botao" type="submit">Entrar</button>
-    </form>
-    <a class="login-ajuda" href="contato.html">Esqueci minha senha</a>
-  </main>
-</body>
+      <form action="index.html">
+        <!-- O "for" da label liga o texto ao campo com o mesmo "id". -->
+        <label for="usuario">Usuário</label>
+        <input id="usuario" type="text" autocomplete="username" required />
+        <label for="senha">Senha</label>
+        <!-- type="password" esconde o que é digitado. -->
+        <input
+          id="senha"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+        <!-- required: o navegador não deixa enviar com o campo vazio. -->
+        <button class="botao" type="submit">Entrar</button>
+      </form>
+      <a class="login-ajuda" href="contato.html">Esqueci minha senha</a>
+    </main>
+  </body>
 </html>
