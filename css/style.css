@@ -669,3 +669,7 @@ footer {
   letter-spacing: 3px;
   background: linear-gradient(90deg, #ffffff, #36c3f3 70%, transparent) top left / 100% 2px no-repeat;
 }
+/* Clientes e Financeiro um embaixo do outro (uma coluna só). */
+.grade-dupla {
+  grid-template-columns: 1fr;
+}
