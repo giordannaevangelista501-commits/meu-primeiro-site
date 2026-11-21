@@ -673,3 +673,27 @@ footer {
 .grade-dupla {
   grid-template-columns: 1fr;
 }
+/* =========================================================
+   14. SETA "VOLTAR AO TOPO"
+   ========================================================= */
+/* Faz a página deslizar suavemente ao clicar em links com #. */
+html { scroll-behavior: smooth; }
+
+/* position: fixed prende a seta na tela, mesmo rolando a página. */
+.voltar-topo {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: linear-gradient(135deg, #36c3f3, #1479c4);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(54, 195, 243, 0.7);
+  opacity: 0.85;
+  z-index: 10; /* fica por cima dos painéis */
+}
+.voltar-topo:hover { opacity: 1; }
+.voltar-topo .icone { width: 22px; height: 22px; }

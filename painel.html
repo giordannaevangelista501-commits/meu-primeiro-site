@@ -20,7 +20,7 @@
 <!-- Inicia o conteúdo visível no navegador. -->
 <body>
   <!-- ===== TOPO: logo, menu e links ===== -->
-  <header class="topo">
+  <header class="topo" id="topo">
     <div class="topo-conteudo">
       <!-- Logo: clicar leva ao painel. -->
       <a class="marca" href="painel.html">
@@ -280,5 +280,9 @@
   <footer>
     <p>Projeto HTML e CSS 😎</p>
   </footer>
+  <!-- Seta fixa no canto: leva ao elemento com id="topo". -->
+  <a class="voltar-topo" href="#topo" aria-label="Voltar ao topo">
+    <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </a>
 </body>
 </html>
