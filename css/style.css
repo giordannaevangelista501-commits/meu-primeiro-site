@@ -19,16 +19,16 @@
 /* Aparência geral de todas as páginas. */
 body {
   margin: 0;
-  font-family: "Inter", Arial, sans-serif;
+  font-family: "Rajdhani", Arial, sans-serif;
   font-size: 15px;
   line-height: 1.5;
   color: #10233f;
   background-color: #f3f6f9;
 }
 
-/* Títulos usam a fonte Manrope (carregada no <head> de cada página). */
+/* Títulos usam a fonte Orbitron (carregada no <head> de cada página). */
 h1, h2, h3 {
-  font-family: "Manrope", Arial, sans-serif;
+  font-family: "Orbitron", Arial, sans-serif;
   margin: 0;
 }
 
@@ -91,14 +91,14 @@ input:focus-visible {
   background-color: white;
   color: #0b2854;
   border-radius: 5px;
-  font-family: "Manrope", Arial, sans-serif;
+  font-family: "Orbitron", Arial, sans-serif;
   font-weight: 800;
   font-size: 14px;
   transform: skew(-7deg);    /* deixa o quadrado levemente inclinado */
 }
 .marca-texto strong {
   display: block;
-  font-family: "Manrope", Arial, sans-serif;
+  font-family: "Orbitron", Arial, sans-serif;
   font-size: 16px;
   letter-spacing: 0.5px;
 }
@@ -518,7 +518,7 @@ td {
   font-size: 12px;
 }
 .saldo strong {
-  font-family: "Manrope", Arial, sans-serif;
+  font-family: "Orbitron", Arial, sans-serif;
   font-size: 16px;
 }
 
@@ -610,4 +610,62 @@ footer {
   width: 100%;
   border-radius: 6px;
   margin-bottom: 20px;
+}
+
+/* =========================================================
+   13. TEMA TECNOLÓGICO-ESPORTIVO
+   Fica no final de propósito: no CSS, a regra que vem
+   depois vence a de antes (é o "efeito cascata").
+   ========================================================= */
+
+/* Letras mais grossas em todo o site. */
+body {
+  font-weight: 600;
+  /* Mesmo degradê do login em todas as telas. */
+  background: linear-gradient(180deg, #0b3a6e 0%, #36c3f3 40%, #1a6fc0 70%, #0a2563 100%);
+  background-attachment: fixed; /* o fundo fica parado ao rolar */
+  min-height: 100vh;
+}
+
+/* Linha ciano embaixo do topo. */
+.topo { border-bottom: 2px solid #36c3f3; }
+
+/* Textos que ficam direto sobre o fundo azul: brancos com sombra. */
+.pagina-topo h1,
+.pagina-topo p,
+footer {
+  color: white;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+.sobretitulo { color: #d4f3ff; }
+
+/* ===== Logo do topo ===== */
+/* Selo "AP": inclinado, em degradê ciano e com brilho. */
+.marca-simbolo {
+  width: 46px;
+  height: 36px;
+  background: linear-gradient(135deg, #7fdcff, #1479c4);
+  color: #0a2563;
+  border-radius: 3px;
+  transform: skew(-18deg);
+  font-family: "Orbitron", Arial, sans-serif;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(54, 195, 243, 0.7);
+}
+/* Nome inclinado, como em logos de carro. */
+.marca-texto strong {
+  display: inline-block;
+  transform: skew(-10deg);
+  font-family: "Orbitron", Arial, sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+/* Faixa de "velocidade" acima de GESTÃO INTEGRADA. */
+.marca-texto small {
+  margin-top: 3px;
+  padding-top: 4px;
+  color: #bfeeff;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #ffffff, #36c3f3 70%, transparent) top left / 100% 2px no-repeat;
 }
