@@ -1,0 +1,288 @@
+/* =====================================================================
+   abas.css
+   Abas e simulação ("fake") feitas SOMENTE com HTML e CSS.
+   Este arquivo é carregado DEPOIS do style.css: ele complementa o que já
+   existe e não altera aquele arquivo.
+
+   COMO FUNCIONA (resumo):
+   1. No painel.html há "inputs" escondidos (radio e checkbox). Eles guardam
+      o estado da página: qual aba está aberta e o que já foi feito.
+   2. Os botões são <label for="id">. Clicar num label marca o input do mesmo id.
+   3. Aqui no CSS usamos  body:has(#algum-input:checked)  que significa:
+      "se o body contém aquele input marcado...". Com isso mostramos/escondemos
+      partes da página sem nenhum JavaScript.
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   1. ESCONDER OS INPUTS DE ESTADO
+   Em vez de display:none, usamos o jeito "visualmente oculto": o input
+   continua existindo (e o teclado ainda consegue alcançar os radios).
+   --------------------------------------------------------------------- */
+.estado {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------------------
+   2. ABAS
+   Todas as telas começam escondidas. Só aparece a tela cujo radio
+   está marcado.
+   --------------------------------------------------------------------- */
+.tela {
+  display: none;
+}
+
+body:has(#t-painel:checked)     #painel,
+body:has(#t-vendas:checked)     #vendas,
+body:has(#t-estoque:checked)    #estoque,
+body:has(#t-clientes:checked)   #clientes,
+body:has(#t-financeiro:checked) #financeiro {
+  display: block;
+}
+
+
+/* ---------------------------------------------------------------------
+   3. MENU (os itens agora são <label>, não <a>)
+   Repete o visual de um item de menu: ícone + texto, ocupando a altura
+   do topo. A aba ativa fica com fundo mais claro e uma linha embaixo.
+   --------------------------------------------------------------------- */
+.menu label {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 8px;
+  padding: 0 18px;
+  color: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.menu label:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body:has(#t-painel:checked)     .menu label[for="t-painel"],
+body:has(#t-vendas:checked)     .menu label[for="t-vendas"],
+body:has(#t-estoque:checked)    .menu label[for="t-estoque"],
+body:has(#t-clientes:checked)   .menu label[for="t-clientes"],
+body:has(#t-financeiro:checked) .menu label[for="t-financeiro"] {
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 -3px 0 #7cc4ff;
+  color: #fff;
+}
+
+/* Quem navega pelo teclado (setas) vê qual aba está em foco. */
+body:has(#t-painel:focus-visible)     .menu label[for="t-painel"],
+body:has(#t-vendas:focus-visible)     .menu label[for="t-vendas"],
+body:has(#t-estoque:focus-visible)    .menu label[for="t-estoque"],
+body:has(#t-clientes:focus-visible)   .menu label[for="t-clientes"],
+body:has(#t-financeiro:focus-visible) .menu label[for="t-financeiro"] {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+/* Botões e links que viraram <label> precisam do "dedinho" do mouse. */
+label.botao,
+label.botao-contorno,
+label.link-seta {
+  cursor: pointer;
+}
+
+
+/* ---------------------------------------------------------------------
+   4. ESTADOS DA SIMULAÇÃO
+   Letras: p = produto cadastrado, c = cliente cadastrado, v = venda feita.
+   Número: 0 = "antes" (visível no início), 1 = "depois" (escondido no início).
+
+     .p0 .c0 .v0  -> somem quando o fato acontece
+     .p1 .c1 .v1  -> aparecem quando o fato acontece
+   --------------------------------------------------------------------- */
+
+/* Os elementos "depois" começam escondidos. */
+.p1,
+.c1,
+.v1 {
+  display: none;
+}
+
+/* Os elementos "antes" somem quando o checkbox correspondente é marcado. */
+body:has(#f-produto:checked) .p0,
+body:has(#f-cliente:checked) .c0,
+body:has(#f-venda:checked)   .v0 {
+  display: none;
+}
+
+/* Os elementos "depois" voltam a aparecer. Cada tipo de tag precisa do seu
+   display normal: <em> é texto em linha, <div> é bloco e <tr> é linha de tabela. */
+body:has(#f-produto:checked) em.p1  { display: inline; }
+body:has(#f-produto:checked) div.p1 { display: block; }
+body:has(#f-produto:checked) tr.p1  { display: table-row; }
+
+body:has(#f-cliente:checked) em.c1  { display: inline; }
+body:has(#f-cliente:checked) div.c1 { display: block; }
+body:has(#f-cliente:checked) tr.c1  { display: table-row; }
+
+body:has(#f-venda:checked)   em.v1  { display: inline; }
+body:has(#f-venda:checked)   div.v1 { display: block; }
+body:has(#f-venda:checked)   tr.v1  { display: table-row; }
+
+/* O <em> é só um "embrulho" para trocar valores: não pode ficar em itálico. */
+em[class] {
+  font-style: normal;
+}
+
+
+/* ---------------------------------------------------------------------
+   5. FORMULÁRIOS DE CADASTRO (simulação)
+   --------------------------------------------------------------------- */
+.campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  padding: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #b9c4d8;
+}
+
+.campo-largo {
+  grid-column: 1 / -1;
+}
+
+.campo input {
+  font: inherit;
+  font-size: 15px;
+  color: #eef2f8;
+  background: #1b1c1e;
+  border: 1px solid #2a2b2e;
+  border-radius: 6px;
+  padding: 10px 12px;
+  width: 100%;
+  cursor: default;
+}
+
+
+/* ---------------------------------------------------------------------
+   6. AVISOS, SELOS E DETALHES DAS TABELAS
+   --------------------------------------------------------------------- */
+.aviso {
+  margin: 0 0 24px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  background: rgba(62, 207, 142, 0.14);
+  border: 1px solid rgba(62, 207, 142, 0.5);
+  color: #9af2c9;
+}
+
+.aviso-alerta {
+  background: rgba(245, 166, 35, 0.14);
+  border-color: rgba(245, 166, 35, 0.5);
+  color: #ffd28a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.texto-alerta {
+  color: #ffd28a;
+}
+
+.selo {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.selo-ok {
+  background: rgba(62, 207, 142, 0.15);
+  color: #3ecf8e;
+}
+
+.selo-alerta {
+  background: rgba(245, 166, 35, 0.15);
+  color: #f5a623;
+}
+
+/* Linha pequena embaixo do nome (ex.: nome do produto embaixo do SKU). */
+.sub-linha {
+  display: block;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.positivo {
+  color: #3ecf8e;
+}
+
+
+/* ---------------------------------------------------------------------
+   7. PONTO DE VENDA (PDV)
+   --------------------------------------------------------------------- */
+.pdv-linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 14px 20px;
+  border-top: 1px solid #2a2b2e;
+}
+
+.pdv-linha .rotulo {
+  opacity: 0.7;
+}
+
+.pdv-total {
+  font-size: 24px;
+}
+
+.pdv-acoes {
+  padding: 18px 20px 20px;
+  border-top: 1px solid #2a2b2e;
+}
+
+.pdv-acoes .aviso {
+  margin-bottom: 0;
+}
+
+
+/* ---------------------------------------------------------------------
+   8. BOTÃO "REINICIAR DEMONSTRAÇÃO" (rodapé)
+   --------------------------------------------------------------------- */
+.reiniciar {
+  font: inherit;
+  font-size: 14px;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.reiniciar:hover {
+  background: rgba(255, 255, 255, 0.18);
+}

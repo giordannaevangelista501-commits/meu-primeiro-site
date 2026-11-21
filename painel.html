@@ -16,9 +16,43 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&amp;family=Orbitron:wght@700;800&amp;display=swap">
   <!-- Conecta este HTML à folha de estilos externa. -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- NOVO: estilos das abas e da simulação. Fica DEPOIS do style.css
+       para poder complementar o que já existe, sem alterar aquele arquivo. -->
+  <link rel="stylesheet" href="css/abas.css">
 </head>
 <!-- Inicia o conteúdo visível no navegador. -->
 <body>
+
+  <!-- ===== NOVO: A "MEMÓRIA" DA PÁGINA (sem JavaScript) =====
+       Sem JavaScript, uma página não consegue guardar dados. Mas existe um
+       elemento do HTML que guarda um estado: a caixinha marcada/desmarcada
+       (input do tipo checkbox ou radio). O CSS consegue "enxergar" essa
+       marcação com o seletor :checked e, com :has(), mudar a página inteira.
+
+       - Os 5 "radio" dizem QUAL ABA está aberta (só um fica marcado).
+       - Os 3 "checkbox" dizem O QUE JÁ ACONTECEU na simulação:
+           f-produto = produto cadastrado
+           f-cliente = cliente cadastrado
+           f-venda   = venda finalizada (é ela que "baixa o estoque")
+
+       Os botões das telas são <label for="...">: clicar no label marca o
+       input que tem o mesmo id. É assim que "clicar" muda a página.
+
+       Tudo fica dentro de um <form> para o botão "Reiniciar demonstração"
+       (type="reset") conseguir desmarcar tudo de uma vez.
+       autocomplete="off" impede o navegador de lembrar as marcações ao recarregar. -->
+  <form id="demo" class="estado" autocomplete="off">
+    <input type="radio" name="aba" id="t-painel" checked>
+    <input type="radio" name="aba" id="t-vendas">
+    <input type="radio" name="aba" id="t-estoque">
+    <input type="radio" name="aba" id="t-clientes">
+    <input type="radio" name="aba" id="t-financeiro">
+
+    <input type="checkbox" id="f-produto" tabindex="-1">
+    <input type="checkbox" id="f-cliente" tabindex="-1">
+    <input type="checkbox" id="f-venda" tabindex="-1">
+  </form>
+
   <!-- ===== TOPO: logo, menu e links ===== -->
   <header class="topo" id="topo">
     <div class="topo-conteudo">
@@ -31,15 +65,18 @@
         </span>
       </a>
 
-      <!-- Menu principal. Os itens levam às seções do painel.
-           O "#" aponta para o id de uma seção (ex.: id="estoque").
+      <!-- Menu principal. MUDANÇA: os itens eram links (<a href="#vendas">) que
+           rolavam a página até uma seção. Agora são <label for="t-...">: clicar
+           marca o "radio" da aba correspondente e o CSS mostra só aquela aba.
+           A aba ativa é destacada pelo CSS (veja abas.css), por isso o
+           aria-current saiu daqui.
            Os ícones são desenhos em SVG escritos no próprio HTML. -->
       <nav class="menu" aria-label="Menu principal">
-        <a href="painel.html" aria-current="page"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Painel</a>
-        <a href="#vendas"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M3 4h2l2.6 11.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L22 8H7"/></svg> Vendas</a>
-        <a href="#estoque"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4v10l-8 4-8-4V7Z"/><path d="M12 11v10"/></svg> Estoque</a>
-        <a href="#clientes"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg> Clientes</a>
-        <a href="#financeiro"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="15" rx="2"/><path d="M16 12h6M18 15h.01M5 5V3h14v2"/></svg> Financeiro</a>
+        <label for="t-painel"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Painel</label>
+        <label for="t-vendas"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M3 4h2l2.6 11.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L22 8H7"/></svg> Vendas</label>
+        <label for="t-estoque"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4v10l-8 4-8-4V7Z"/><path d="M12 11v10"/></svg> Estoque</label>
+        <label for="t-clientes"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg> Clientes</label>
+        <label for="t-financeiro"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="15" rx="2"/><path d="M16 12h6M18 15h.01M5 5V3h14v2"/></svg> Financeiro</label>
       </nav>
 
       <!-- Links das outras páginas do site. -->
@@ -53,151 +90,414 @@
 
   <!-- Delimita o conteúdo principal desta página. -->
   <main>
-    <!-- ===== CABEÇALHO DA PÁGINA ===== -->
-    <div class="pagina-topo">
-      <div>
-        <p class="sobretitulo">CENTRAL DE OPERAÇÕES</p>
-        <h1>Visão geral</h1>
-        <p>Ambiente base · Aguardando conexão com a fonte de dados</p>
-      </div>
-      <div class="acoes">
-        <!-- Botões apenas visuais: sem JavaScript, eles ainda não fazem nada. -->
-        <button class="botao-contorno" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg> Hoje</button>
-        <a class="botao" href="#vendas"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Nova venda</a>
-      </div>
-    </div>
 
-    <!-- ===== BLOCO 1: INDICADORES =====
-         Cada "indicador" é um cartão. A classe de cor (azul, amarelo...)
-         muda o quadradinho do ícone. "—" significa "sem dados". -->
-    <section class="indicadores" aria-label="Indicadores principais">
-      <article class="indicador">
-        <span class="indicador-icone azul"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 6-6 4 4 8-9"/><path d="M15 6h6v6"/></svg></span>
-        <div>
-          <p>Receita do dia</p>
-          <h3>—</h3>
-          <small>Sem dados disponíveis</small>
-        </div>
-      </article>
-      <article class="indicador">
-        <span class="indicador-icone amarelo"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span>
-        <div>
-          <p>Orçamentos em aberto</p>
-          <h3>—</h3>
-          <small>Sem dados disponíveis</small>
-        </div>
-      </article>
-      <article class="indicador">
-        <span class="indicador-icone ciano"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 13H5L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>
-        <div>
-          <p>Total de vendas</p>
-          <h3>—</h3>
-          <small>Sem dados disponíveis</small>
-        </div>
-      </article>
-      <!-- Cartão de alerta: a classe extra "indicador-alerta" põe a borda vermelha. -->
-      <article class="indicador indicador-alerta">
-        <span class="indicador-icone vermelho"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4v10l-8 4-8-4V7Z"/><path d="M12 11v10"/></svg></span>
-        <div>
-          <p>Alertas de estoque</p>
-          <h3>—</h3>
-          <small>Produtos em falta ficam indisponíveis para venda</small>
-        </div>
-      </article>
-    </section>
+    <!-- =====================================================================
+         ABA 1: PAINEL
+         Cada aba é uma <div class="tela">. O CSS esconde todas e mostra só
+         a que está com o radio marcado. O id é o mesmo que o menu antigo usava.
+         ===================================================================== -->
+    <div class="tela" id="painel">
 
-    <!-- ===== BLOCO 2: ESTOQUE =====
-         id="estoque" é o "endereço" usado pelo menu (painel.html#estoque). -->
-    <section class="painel" id="estoque">
-      <div class="painel-topo">
+      <!-- ===== CABEÇALHO DA PÁGINA ===== -->
+      <div class="pagina-topo">
         <div>
-          <h2>Estoque e endereçamento</h2>
-          <p>Visão consolidada por setor, posição e distribuidor</p>
+          <p class="sobretitulo">CENTRAL DE OPERAÇÕES</p>
+          <h1>Visão geral</h1>
+          <p>Ambiente base · Aguardando conexão com a fonte de dados</p>
         </div>
-        <button class="botao" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Novo produto</button>
+        <div class="acoes">
+          <!-- Botão apenas visual. -->
+          <button class="botao-contorno" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg> Hoje</button>
+          <!-- Antes era um link para #vendas. Agora é um label que abre a aba Vendas. -->
+          <label class="botao" for="t-vendas"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Nova venda</label>
+        </div>
       </div>
 
-      <!-- Barra de ferramentas: busca, filtros e exportar. -->
-      <div class="barra-ferramentas">
-        <!-- label envolve o campo: clicar no texto/ícone foca a busca. -->
-        <label class="busca">
-          <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-          <input type="search" placeholder="Buscar produto, SKU ou marca..." aria-label="Buscar produto">
-        </label>
-        <button class="botao-contorno" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8L4 5Z"/></svg> Filtros</button>
-        <span class="contagem">Nenhum produto cadastrado</span>
-        <button class="botao-contorno" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Exportar</button>
-      </div>
+      <!-- ===== BLOCO 1: INDICADORES =====
+           LEGENDA DAS CLASSES DE ESTADO (definidas em abas.css):
+             p0 / p1 = aparece ANTES / DEPOIS de cadastrar o produto
+             c0 / c1 = aparece ANTES / DEPOIS de cadastrar o cliente
+             v0 / v1 = aparece ANTES / DEPOIS de finalizar a venda
+           Para trocar um valor, escrevemos os dois no HTML (o "antes" e o "depois")
+           e o CSS mostra um de cada vez. É isso que simula a mudança de dados. -->
+      <section class="indicadores" aria-label="Indicadores principais">
+        <article class="indicador">
+          <span class="indicador-icone azul"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 6-6 4 4 8-9"/><path d="M15 6h6v6"/></svg></span>
+          <div>
+            <p>Receita do dia</p>
+            <h3><em class="v0">—</em><em class="v1">R$ 98,70</em></h3>
+            <small><em class="v0">Sem dados disponíveis</em><em class="v1">1 venda finalizada hoje</em></small>
+          </div>
+        </article>
+        <article class="indicador">
+          <span class="indicador-icone amarelo"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span>
+          <div>
+            <p>Orçamentos em aberto</p>
+            <h3>—</h3>
+            <small>Sem dados disponíveis</small>
+          </div>
+        </article>
+        <article class="indicador">
+          <span class="indicador-icone ciano"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 13H5L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>
+          <div>
+            <p>Total de vendas</p>
+            <h3><em class="v0">—</em><em class="v1">1</em></h3>
+            <small><em class="v0">Sem dados disponíveis</em><em class="v1">Venda #1 · Loja física</em></small>
+          </div>
+        </article>
+        <!-- Cartão de alerta: a classe extra "indicador-alerta" põe a borda vermelha. -->
+        <article class="indicador indicador-alerta">
+          <span class="indicador-icone vermelho"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4v10l-8 4-8-4V7Z"/><path d="M12 11v10"/></svg></span>
+          <div>
+            <p>Alertas de estoque</p>
+            <!-- Três situações: sem produto ("—"), produto cadastrado (0) e depois da venda (1). -->
+            <h3><em class="p0">—</em><em class="p1"><em class="v0">0</em><em class="v1">1</em></em></h3>
+            <small>Produtos em falta ficam indisponíveis para venda</small>
+          </div>
+        </article>
+      </section>
 
-      <!-- A caixa deixa a tabela rolar para o lado em telas pequenas. -->
-      <div class="tabela-caixa">
-        <table>
-          <thead>
-            <tr>
-              <th>SKU / PRODUTO</th>
-              <th>CATEGORIA</th>
-              <th>DISTRIBUIDOR</th>
-              <th>ENDEREÇO</th>
-              <th>ESTOQUE</th>
-              <th>MÍN / MÁX</th>
-              <th>PREÇO</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <!-- colspan="8" faz a célula ocupar as 8 colunas. -->
-              <td colspan="8">
-                <div class="vazio">
-                  <span class="vazio-icone"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4v10l-8 4-8-4V7Z"/><path d="M12 11v10"/></svg></span>
-                  <div>
-                    <strong>Nenhum produto cadastrado</strong>
-                    <small>Os produtos e endereços de estoque aparecerão aqui.</small>
+      <!-- ===== BLOCO 2: ALERTAS DE ESTOQUE ===== -->
+      <section class="painel">
+        <div class="painel-topo">
+          <div>
+            <h2>Alertas de estoque</h2>
+            <p>Produtos abaixo do estoque mínimo</p>
+          </div>
+          <label class="link-seta" for="t-estoque">Ver estoque <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></label>
+        </div>
+        <div class="tabela-caixa">
+          <table>
+            <thead>
+              <tr>
+                <th>SKU / PRODUTO</th>
+                <th>ENDEREÇO</th>
+                <th>ESTOQUE</th>
+                <th>MÍN / MÁX</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Linha "vazio": some quando a venda é finalizada. -->
+              <tr class="v0">
+                <td colspan="5">
+                  <div class="vazio">
+                    <span class="vazio-icone"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4v10l-8 4-8-4V7Z"/><path d="M12 11v10"/></svg></span>
+                    <div>
+                      <strong>Nenhum alerta de estoque</strong>
+                      <small>Produtos abaixo do estoque mínimo aparecerão aqui.</small>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                </td>
+              </tr>
+              <!-- Linha do alerta: só aparece depois da venda (estoque 2, menor que o mínimo 3). -->
+              <tr class="v1">
+                <td><strong>FLT-001</strong><span class="sub-linha">Filtro de óleo · Tecfil</span></td>
+                <td>Setor A · Prateleira 1</td>
+                <td><strong>2</strong></td>
+                <td>3 / 50</td>
+                <td><span class="selo selo-alerta">Estoque baixo</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-      <div class="painel-rodape">
-        <a class="link-seta" href="#estoque">Ver inventário completo <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <span>Integração de estoque não configurada</span>
-      </div>
-    </section>
+    </div><!-- fim da aba PAINEL -->
 
-    <!-- ===== BLOCO 3: VENDAS ===== -->
-    <section class="painel" id="vendas">
-      <div class="painel-topo">
+
+    <!-- =====================================================================
+         ABA 2: VENDAS
+         ===================================================================== -->
+    <div class="tela" id="vendas">
+
+      <div class="pagina-topo">
         <div>
-          <h2>Vendas multicanal</h2>
+          <p class="sobretitulo">PONTO DE VENDA</p>
+          <h1>Vendas</h1>
           <p>Venda presencial (loja física) e on-line</p>
         </div>
-        <button class="botao" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-2-5H5L3 9Z"/><path d="M5 9v11h14V9M9 20v-6h6v6"/></svg> Abrir PDV</button>
       </div>
 
-      <!-- Abas dos canais. A classe "aba-ativa" marca a aba selecionada. -->
-      <div class="abas">
-        <button class="aba aba-ativa" type="button">Todos</button>
-        <button class="aba" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-2-5H5L3 9Z"/><path d="M5 9v11h14V9M9 20v-6h6v6"/></svg> Loja física</button>
-        <button class="aba" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg> Online</button>
-        <span class="status-integracao">Integração pendente</span>
-      </div>
+      <section class="painel">
+        <div class="painel-topo">
+          <div>
+            <h2>Vendas multicanal</h2>
+            <p>Venda presencial (loja física) e on-line</p>
+          </div>
+          <button class="botao" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-2-5H5L3 9Z"/><path d="M5 9v11h14V9M9 20v-6h6v6"/></svg> Abrir PDV</button>
+        </div>
 
-      <div class="vazio">
-        <span class="vazio-icone"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M3 4h2l2.6 11.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L22 8H7"/></svg></span>
+        <!-- Abas dos canais. A classe "aba-ativa" marca a aba selecionada. -->
+        <div class="abas">
+          <button class="aba aba-ativa" type="button">Todos</button>
+          <button class="aba" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-2-5H5L3 9Z"/><path d="M5 9v11h14V9M9 20v-6h6v6"/></svg> Loja física</button>
+          <button class="aba" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg> Online</button>
+          <span class="status-integracao">Integração pendente</span>
+        </div>
+
+        <!-- SEM PRODUTO CADASTRADO (p0): continua o aviso original. -->
+        <div class="vazio p0">
+          <span class="vazio-icone"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M3 4h2l2.6 11.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L22 8H7"/></svg></span>
+          <div>
+            <strong>Nenhum item disponível para venda</strong>
+            <small>Cadastre produtos (aba Estoque) para iniciar vendas nos canais físico e online.</small>
+          </div>
+        </div>
+
+        <!-- COM PRODUTO CADASTRADO (p1): aparece o ponto de venda. -->
+        <div class="pdv p1">
+          <div class="pdv-linha">
+            <span class="rotulo">Produto</span>
+            <span><strong>Filtro de óleo</strong> · FLT-001 · R$ 32,90 cada</span>
+          </div>
+          <div class="pdv-linha">
+            <span class="rotulo">Disponível em estoque</span>
+            <!-- ESTA É A TROCA DO ESTOQUE: antes 5, depois da venda 2. -->
+            <span><strong><em class="v0">5</em><em class="v1">2</em></strong> unidades</span>
+          </div>
+          <div class="pdv-linha">
+            <span class="rotulo">Quantidade na venda</span>
+            <span>3 unidades</span>
+          </div>
+          <div class="pdv-linha">
+            <span class="rotulo">Cliente</span>
+            <span>
+              <em class="c1">João da Silva · CPF 529.982.247-25</em>
+              <em class="c0 texto-alerta">Nenhum cliente cadastrado ainda</em>
+            </span>
+          </div>
+          <div class="pdv-linha">
+            <span class="rotulo">Pagamento</span>
+            <span>Pix</span>
+          </div>
+          <div class="pdv-linha">
+            <span class="rotulo">Total</span>
+            <strong class="pdv-total">R$ 98,70</strong>
+          </div>
+
+          <div class="pdv-acoes">
+            <!-- Sem cliente: não deixa vender e orienta o usuário. -->
+            <div class="aviso aviso-alerta c0">
+              Cadastre um cliente na aba Clientes para poder finalizar a venda.
+              <label class="botao-contorno" for="t-clientes">Ir para Clientes</label>
+            </div>
+            <!-- Com cliente (c1): mostra o botão (v0) ou, depois de clicar, a confirmação (v1). -->
+            <div class="c1">
+              <label class="botao v0" for="f-venda"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg> Finalizar venda</label>
+              <div class="aviso v1" role="status">
+                ✔ Venda #1 finalizada! O estoque do Filtro de óleo passou de 5 para 2 unidades e o valor entrou no Financeiro.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Histórico de vendas -->
+      <section class="painel">
+        <div class="painel-topo">
+          <div>
+            <h2>Histórico de vendas</h2>
+            <p>Vendas finalizadas</p>
+          </div>
+        </div>
+        <div class="tabela-caixa">
+          <table>
+            <thead>
+              <tr>
+                <th>Nº</th>
+                <th>CLIENTE</th>
+                <th>CANAL</th>
+                <th>ITENS</th>
+                <th>PAGAMENTO</th>
+                <th>TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="v0">
+                <td colspan="6">
+                  <div class="vazio">
+                    <span class="vazio-icone"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M3 4h2l2.6 11.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L22 8H7"/></svg></span>
+                    <div>
+                      <strong>Nenhuma venda registrada</strong>
+                      <small>As vendas finalizadas aparecerão aqui.</small>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="v1">
+                <td><strong>#1</strong></td>
+                <td>João da Silva</td>
+                <td>Loja física</td>
+                <td>3× Filtro de óleo</td>
+                <td>Pix</td>
+                <td><strong>R$ 98,70</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div><!-- fim da aba VENDAS -->
+
+
+    <!-- =====================================================================
+         ABA 3: ESTOQUE
+         ===================================================================== -->
+    <div class="tela" id="estoque">
+
+      <div class="pagina-topo">
         <div>
-          <strong>Nenhum item disponível para venda</strong>
-          <small>Cadastre produtos para iniciar vendas nos canais físico e online.</small>
+          <p class="sobretitulo">INVENTÁRIO</p>
+          <h1>Estoque</h1>
+          <p>Produtos, quantidades e endereços na prateleira</p>
         </div>
       </div>
-    </section>
 
-    <!-- ===== BLOCO 4: CLIENTES E FINANCEIRO, lado a lado ===== -->
-    <div class="grade-dupla">
+      <!-- FORMULÁRIO DE CADASTRO (p0): some depois de cadastrar.
+           Os campos são "readonly": já vêm preenchidos porque é uma simulação.
+           Clicar no label "Cadastrar produto" marca o checkbox f-produto. -->
+      <section class="painel p0">
+        <div class="painel-topo">
+          <div>
+            <h2>Cadastrar produto</h2>
+            <p>Simulação: os dados abaixo já estão preenchidos. Clique em Cadastrar.</p>
+          </div>
+          <label class="botao" for="f-produto"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Cadastrar produto</label>
+        </div>
+        <div class="campos">
+          <label class="campo"><span>SKU</span><input type="text" value="FLT-001" readonly></label>
+          <label class="campo"><span>Nome do produto</span><input type="text" value="Filtro de óleo" readonly></label>
+          <label class="campo"><span>Marca</span><input type="text" value="Tecfil" readonly></label>
+          <label class="campo"><span>Categoria</span><input type="text" value="Filtros" readonly></label>
+          <label class="campo"><span>Distribuidor</span><input type="text" value="Auto Distribuidora" readonly></label>
+          <label class="campo"><span>Endereço no estoque</span><input type="text" value="Setor A · Prateleira 1" readonly></label>
+          <label class="campo"><span>Quantidade em estoque</span><input type="text" value="5" readonly></label>
+          <label class="campo"><span>Estoque mínimo</span><input type="text" value="3" readonly></label>
+          <label class="campo"><span>Estoque máximo</span><input type="text" value="50" readonly></label>
+          <label class="campo"><span>Preço de venda</span><input type="text" value="R$ 32,90" readonly></label>
+        </div>
+      </section>
 
-      <section class="painel" id="clientes">
+      <!-- Confirmação (p1): aparece depois de cadastrar. -->
+      <div class="aviso p1" role="status">
+        ✔ Produto cadastrado com sucesso! Ele já aparece na tabela abaixo e está disponível na aba Vendas.
+      </div>
+
+      <!-- ===== TABELA DE ESTOQUE ===== -->
+      <section class="painel">
+        <div class="painel-topo">
+          <div>
+            <h2>Estoque e endereçamento</h2>
+            <p>Visão consolidada por setor, posição e distribuidor</p>
+          </div>
+        </div>
+
+        <!-- Barra de ferramentas: busca, filtros e exportar (apenas visuais). -->
+        <div class="barra-ferramentas">
+          <!-- label envolve o campo: clicar no texto/ícone foca a busca. -->
+          <label class="busca">
+            <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input type="search" placeholder="Buscar produto, SKU ou marca..." aria-label="Buscar produto">
+          </label>
+          <button class="botao-contorno" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8L4 5Z"/></svg> Filtros</button>
+          <span class="contagem"><em class="p0">Nenhum produto cadastrado</em><em class="p1">1 produto cadastrado</em></span>
+          <button class="botao-contorno" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Exportar</button>
+        </div>
+
+        <!-- A caixa deixa a tabela rolar para o lado em telas pequenas. -->
+        <div class="tabela-caixa">
+          <table>
+            <thead>
+              <tr>
+                <th>SKU / PRODUTO</th>
+                <th>CATEGORIA</th>
+                <th>DISTRIBUIDOR</th>
+                <th>ENDEREÇO</th>
+                <th>ESTOQUE</th>
+                <th>MÍN / MÁX</th>
+                <th>PREÇO</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Linha "vazio" original: some quando o produto é cadastrado (p0). -->
+              <tr class="p0">
+                <!-- colspan="8" faz a célula ocupar as 8 colunas. -->
+                <td colspan="8">
+                  <div class="vazio">
+                    <span class="vazio-icone"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4v10l-8 4-8-4V7Z"/><path d="M12 11v10"/></svg></span>
+                    <div>
+                      <strong>Nenhum produto cadastrado</strong>
+                      <small>Os produtos e endereços de estoque aparecerão aqui.</small>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <!-- Linha do produto (p1): aparece depois do cadastro. -->
+              <tr class="p1">
+                <td><strong>FLT-001</strong><span class="sub-linha">Filtro de óleo · Tecfil</span></td>
+                <td>Filtros</td>
+                <td>Auto Distribuidora</td>
+                <td>Setor A · Prateleira 1</td>
+                <!-- ESTOQUE: 5 antes da venda, 2 depois (v0 / v1). -->
+                <td><strong><em class="v0">5</em><em class="v1">2</em></strong></td>
+                <td>3 / 50</td>
+                <td>R$ 32,90</td>
+                <!-- STATUS: depois da venda o estoque (2) fica abaixo do mínimo (3). -->
+                <td>
+                  <em class="v0"><span class="selo selo-ok">Em estoque</span></em>
+                  <em class="v1"><span class="selo selo-alerta">Estoque baixo</span></em>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="painel-rodape">
+          <a class="link-seta" href="#estoque">Ver inventário completo <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span>Integração de estoque não configurada</span>
+        </div>
+      </section>
+
+    </div><!-- fim da aba ESTOQUE -->
+
+
+    <!-- =====================================================================
+         ABA 4: CLIENTES
+         ===================================================================== -->
+    <div class="tela" id="clientes">
+
+      <div class="pagina-topo">
+        <div>
+          <p class="sobretitulo">RELACIONAMENTO</p>
+          <h1>Clientes</h1>
+          <p>Cadastro com nome, CPF e endereço</p>
+        </div>
+      </div>
+
+      <!-- FORMULÁRIO DE CADASTRO (c0): some depois de cadastrar. -->
+      <section class="painel c0">
+        <div class="painel-topo">
+          <div>
+            <h2>Cadastrar cliente</h2>
+            <p>Simulação: os dados abaixo já estão preenchidos. Clique em Cadastrar.</p>
+          </div>
+          <label class="botao" for="f-cliente"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Cadastrar cliente</label>
+        </div>
+        <div class="campos">
+          <label class="campo"><span>Nome completo</span><input type="text" value="João da Silva" readonly></label>
+          <label class="campo"><span>CPF</span><input type="text" value="529.982.247-25" readonly></label>
+          <label class="campo campo-largo"><span>Endereço completo</span><input type="text" value="Av. Brasil, 1500, Centro, São Paulo - SP" readonly></label>
+        </div>
+      </section>
+
+      <!-- Confirmação (c1). -->
+      <div class="aviso c1" role="status">
+        ✔ Cliente cadastrado com sucesso! Ele já aparece na tabela abaixo e pode ser escolhido na aba Vendas.
+      </div>
+
+      <section class="painel">
         <div class="painel-topo">
           <div>
             <h2>Clientes recentes</h2>
@@ -216,7 +516,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr class="c0">
                 <td colspan="4">
                   <div class="vazio">
                     <span class="vazio-icone"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
@@ -227,12 +527,35 @@
                   </div>
                 </td>
               </tr>
+              <tr class="c1">
+                <td><strong>João da Silva</strong><span class="sub-linha">529.982.247-25</span></td>
+                <td>Av. Brasil, 1500, Centro, São Paulo - SP</td>
+                <!-- Pedidos e total mudam depois da venda (v0 / v1). -->
+                <td><em class="v0">0</em><em class="v1">1</em></td>
+                <td><em class="v0">R$ 0,00</em><em class="v1">R$ 98,70</em></td>
+              </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <section class="painel" id="financeiro">
+    </div><!-- fim da aba CLIENTES -->
+
+
+    <!-- =====================================================================
+         ABA 5: FINANCEIRO
+         ===================================================================== -->
+    <div class="tela" id="financeiro">
+
+      <div class="pagina-topo">
+        <div>
+          <p class="sobretitulo">CONTROLE FINANCEIRO</p>
+          <h1>Financeiro</h1>
+          <p>Entrada e saída de valores</p>
+        </div>
+      </div>
+
+      <section class="painel">
         <div class="painel-topo">
           <div>
             <h2>Entrada e saída de valores</h2>
@@ -240,11 +563,11 @@
           </div>
           <a class="link-seta" href="#financeiro">Extrato completo <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
-        <!-- Faixa com os três totais do dia. -->
+        <!-- Faixa com os três totais do dia: mudam quando a venda é finalizada. -->
         <div class="saldo">
-          <div><span>Entradas hoje</span><strong>—</strong></div>
-          <div><span>Saídas hoje</span><strong>—</strong></div>
-          <div><span>Saldo do dia</span><strong>—</strong></div>
+          <div><span>Entradas hoje</span><strong><em class="v0">—</em><em class="v1">R$ 98,70</em></strong></div>
+          <div><span>Saídas hoje</span><strong><em class="v0">—</em><em class="v1">R$ 0,00</em></strong></div>
+          <div><span>Saldo do dia</span><strong><em class="v0">—</em><em class="v1">R$ 98,70</em></strong></div>
         </div>
         <div class="tabela-caixa">
           <table>
@@ -257,7 +580,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr class="v0">
                 <td colspan="4">
                   <div class="vazio">
                     <span class="vazio-icone"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="15" rx="2"/><path d="M16 12h6M18 15h.01M5 5V3h14v2"/></svg></span>
@@ -268,17 +591,28 @@
                   </div>
                 </td>
               </tr>
+              <!-- Entrada gerada automaticamente pela venda. -->
+              <tr class="v1">
+                <td><strong>Venda #1 · João da Silva</strong><span class="sub-linha">Hoje</span></td>
+                <td>Vendas</td>
+                <td>Pix</td>
+                <td><strong class="positivo">+ R$ 98,70</strong></td>
+              </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-    </div>
+    </div><!-- fim da aba FINANCEIRO -->
+
   </main>
 
   <!-- Agrupa as informações do rodapé. -->
   <footer>
     <p>Projeto HTML e CSS 😎</p>
+    <!-- type="reset" + form="demo": desmarca todos os inputs do formulário escondido
+         e a página volta ao estado inicial. Serve para repetir a demonstração. -->
+    <p><button class="reiniciar" type="reset" form="demo">↺ Reiniciar demonstração</button></p>
   </footer>
   <!-- Seta fixa no canto: leva ao elemento com id="topo". -->
   <a class="voltar-topo" href="#topo" aria-label="Voltar ao topo">
