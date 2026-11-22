@@ -19,11 +19,11 @@ O site não usa JavaScript nem banco de dados. As abas e a demonstração de ven
 | Integrante | Contribuição |
 |---|---|
 | Giordanna | Criação do repositório e das páginas, visual do site, login, criação da logo, tema, publicação no GitHub Pages |
-| Antônio | ESCREVA O QUE ELE FEZ |
+| Antônio |  |
 | Débora | Funções em abas separadas, função de cadastrar (produto, venda, cliente e caixa), alerta de estoque baixo |
 | Gianna | Dica para preenchimento de campos, documentação do projeto |
 | Thallya | Alteração na tela "financeiro": formas de pagamento, documentação do projeto |
-| Gustavo | ESCREVA O QUE ELE FEZ |
+| Gustavo |  |
 
 ## Como abrir no computador
 1. Clone o repositório: `git clone https://github.com/giordannaevangelista501-commits/meu-primeiro-site.git`
